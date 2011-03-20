@@ -1,0 +1,37 @@
+# Environment
+ERLXSL_HOME?=""
+CC ?= gcc
+DARWIN_FLAGS = $(shell uname | awk '/Darwin/ { print "-fPIC -bundle -flat_namespace" }')
+DEFAULT_CFLAGS = -std=c99 -fPIC -I $$ERL_XSL_HOME -I $$ERL_XSL_HOME/c_src
+CFLAGS ?= "$DEFAULT_CFLAGS"
+BINDIR = bin
+SPECS = $(shell find spec -name so_*.spec)
+TESTS = $(patsubst %.spec,%.c,$(SPECS))
+ALL_SPECS = spec/all_specs.c
+TESTBIN = bin/all_specs
+MAIN = bin/erlxsl_sablot.so
+DBG ?= ""
+
+info:
+	$(info CFLAGS=$(CFLAGS))
+
+all: clean compile
+
+compile: $(MAIN)
+
+clean: clean-ebin
+	rm -f src/*.o
+	rm -f bin/*.so
+
+$(MAIN):
+	$(CC) -fPIC -c c_src/lib_stub.c -o bin/lib_stub.o
+	$(CC) -shared -o $@ bin/lib_stub.o
+
+$(TESTBIN): clean $(BINDIR)
+	@(cat spec/*.spec | deps/cspec/bin/cspec > $(ALL_SPECS))
+	@($(CC) $(LIB) $(ALL_SPECS) $(CFLAGS) $(DBG) $(DRV_CFLAGS) $(DARWIN) -o $(TESTBIN))
+
+$(BINDIR):
+	mkdir -p $@
+
+.PHONY: all info clean compile
