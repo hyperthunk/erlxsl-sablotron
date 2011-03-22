@@ -47,13 +47,6 @@ static int lookup_command(char*);
 static void setup_stub(int, char*);
 static EngineState default_command(Command*);
 
-void init_engine(XslEngine *spec) {
-    spec->transform = handleTransform;
-    spec->after_transform = postHandle;
-    spec->shutdown = shutdown;
-    spec->command = NULL; //default_command;
-};
-
 static EngineState
 transform(Command *command) {
     INFO("erlxsl_sablot::transform\n");
@@ -120,7 +113,7 @@ transform(Command *command) {
 
     // TODO: return XslTransformError if this fails....
 
-    SablotGetResultArg(sHandle, "arg:/out", cmd_buff(command));
+    SablotGetResultArg(sHandle, "arg:/out", &cmd_buff(command));
 
     // NB: we DO NOT mark the result data as dirty, because it is
     // meant to be freed by sablotron and not by us - not setting
@@ -156,6 +149,12 @@ shutdown(void *state) {
     INFO("default_shutdown\n");
 };
 
+void init_engine(XslEngine *spec) {
+    spec->transform = transform;
+    spec->after_transform = after_transform;
+    spec->shutdown = shutdown;
+    spec->command = NULL; //default_command;
+};
 
 /* Walks the supplied linked list of params and adds them. */
 /*
