@@ -27,7 +27,7 @@ def options(opt):
                    action='store',
                    default="/usr/local/include",
                    help='Location of sablotron header file(s)')
-    opt.add_option('--enable64bit',
+    opt.add_option('--enable-64bit',
                    action='store',
                    default=False,
                    help='Build for 64bit architectures')
@@ -55,7 +55,7 @@ def configure(conf):
 
     conf.env.append_value('LINKFLAGS', ['-undefined', 'suppress'])
 
-    if conf.options.enable64bit:
+    if conf.options.enable_64bit:
         # TODO: check conf.env.ARCH and switch for ppc and other architectures....
         conf.env.prepend_value('LINKFLAGS', ['-arch', 'x86_64'])
 

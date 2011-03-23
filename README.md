@@ -2,21 +2,20 @@
 
 This project implements an *XSLT Engine Provider* for the [ErlXSL](http://github.com/hyperthunk/erlxsl) XSLT driver.
 
+## Overview
+
+The [ErlXSL](http://github.com/hyperthunk/erlxsl) OTP application provides a binding to native XSLT engines, via either a port program or linked-in port driver interface. The choice of XSLT engine is `pluggable` via a simple API, and this project implements that API in order to provide access to [Sablotron XSLT Engine](http://github.com/hyperthunk/Sablotron) via the linked-in driver interface. A port driver version may be provided at a later stage.
+
+## Status & Release Management
+
+This project is in alpha at the moment, and as such both the API and functionality is subject to change. We use [Semantic Versioning](http://semver.org) to manage our releases (as does [ErlXSL](http://github.com/hyperthunk/erlxsl)). All major and minor versions will be tagged for release. Release candidates (i.e., revision builds) might be tagged.
+
 ## Target System Requirements
+
+The [ErlXSL](http://github.com/hyperthunk/erlxsl) OTP application running on a version of the Erlang/OTP platform >= R13B01, and a valid install of [Sablotron](http://github.com/hyperthunk/Sablotron) are the only software prerequisites. [Sablotron](http://github.com/hyperthunk/Sablotron) provides a number of optional features that depend on other libraries (such as iconv and the Mozilla Javascript Runtime). You should refer to its documentation if you wish to use these.
+
+## Supported Platforms
 
 [ErlXSL](http://github.com/hyperthunk/erlxsl) has (currently) been tested on OS-X, Debian Linux and several other debian-based distros (including Ubuntu). For a complete list of supported Operating Systems, see the [ErlXSL Wiki](http://github.com/hyperthunk/erlxsl/wiki).
 
-You will ened a version of Sablotron installed and `libsablot` must be available on the appropriate path for dynamic linking to occur (e.g. `LD_LIBRARY_PATH` on linux, `DYLIB_LIBRARAY_PATH` on OS X, etc).
-
-## Build System Requirements
-
-You will need a C99 compatible toolchain installed in order to build from sources.
-
-A version of Sablotron is being mirrored [here](http://github.com/hyperthunk/Sablotron), just in case you have difficulty locating the official download sites (as I did). It is also available for download from sourceforce.
-
-If you have already installed [erlxsl](http://github.com/hyperthunk/erlxsl), you should set the `ERLXSL_HOME` environment variable to the root directory in which it is located. Otherwise, you will need to obtain a copy of the [erlxsl API header file](https://github.com/hyperthunk/erlxsl/blob/master/c_src/erlxsl.h). Although it is *not* necessary to have the Erlang Linked-In driver installed on your system in order to compile this project, you will need to set `ERLXSL_HOME` to the directory in which the header is to be found. In this latter case, you should export an environment variable `ERLXSL_API_FILE` containing the path to the header file.
-
-## Building From Source
-
-After exporting your `ERLXSL_HOME` or `ERLXSL_API_FILE` environment variable, you can build the project using GNU make (or an equivalent tool that understands GNU makefiles). The default *rule* will build (i.e. compile) the sources. In order to run the tests you will need to run `make test` instead.
-
+The list of supported platforms for [Sablotron](http://github.com/hyperthunk/Sablotron) can be found on the project home page.
